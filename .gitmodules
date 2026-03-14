@@ -1,0 +1,6 @@
+[submodule "ProjectZomboid-Culling-Fix"]
+	path = ProjectZomboid-Culling-Fix
+	url = https://github.com/m0d1nst4ll3r/ProjectZomboid-Culling-Fix.git
+[submodule "pluginloader"]
+	path = pluginloader
+	url = https://github.com/Colla-Bot/Avrix

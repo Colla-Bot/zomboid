@@ -1,0 +1,137 @@
+module Base
+{
+  item OpenedBox
+  {
+    Type = Normal,
+    DisplayName = Opened Box,
+    Weight = 0.1,
+  }
+  item AmmoApiBox
+  {
+    Type = Normal,
+    DisplayName = Ammo Box,
+    Icon = AmmoBox,
+    Weight = 0.1,
+  }
+  item ArmorApiBox
+  {
+    Type = Normal,
+    DisplayName = Armor Box,
+    Icon = ArmorBox,
+    Weight = 0.1,
+  }
+  item BasicApiBox
+  {
+    Type = Normal,
+    DisplayName = Basic Box,
+    Icon = BasicBox,
+    Weight = 0.1,
+  }
+  item BasicFoodApiBox
+  {
+    Type = Normal,
+    DisplayName = Basic Food Box,
+    Icon = BasicFoodBox,
+    Weight = 0.1,
+  }
+  item CommonApiBox
+  {
+    Type = Normal,
+    DisplayName = Common Box,
+    Icon = CommonBox,
+    Weight = 0.1,
+  }
+  item EpicApiBox
+  {
+    Type = Normal,
+    DisplayName = Epic Box,
+    Icon = EpicBox,
+    Weight = 0.1,
+  }
+  item FoodApiBox
+  {
+    Type = Normal,
+    DisplayName = Food Box,
+    Icon = FoodBox,
+    Weight = 0.1,
+  }
+  item GunApiBox
+  {
+    Type = Normal,
+    DisplayName = Gun Box,
+    Icon = GunBox,
+    Weight = 0.1,
+  }
+  item AntiqueApiBox
+  {
+    Type = Normal,
+    DisplayName = Antique Box,
+    Icon = AntiqueBox,
+    Weight = 0.1,
+  }
+  item MeleeApiBox
+  {
+    Type = Normal,
+    DisplayName = Melee Weapon Box,
+    Icon = MeleeBox,
+    Weight = 0.1,
+  }
+  item PartsApiBox
+  {
+    Type = Normal,
+    DisplayName = Parts Box,
+    Icon = PartsBox,
+    Weight = 0.1,
+  }
+  item LegendApiBox
+  {
+    Type = Normal,
+    DisplayName = Legend Box,
+    Icon = LegendBox,
+    Weight = 0.1,
+  }
+  item ToolApiBox
+  {
+    Type = Normal,
+    DisplayName = Tool Box,
+    Icon = ToolBox,
+    Weight = 0.1,
+  }
+  item VehicleSpawnApi
+  {
+    Type = Normal,
+    DisplayName = Vehicle Spawn,
+    Icon = VehicleSpawn,
+    Weight = 0.1,
+  }
+
+  recipe Open Box
+  {
+    BasicApiBox/CommonApiBox/EpicApiBox/LegendApiBox,
+    Result: OpenedBox,
+    Sound: PutItemInBag,
+    Time: 5.0,
+    OnCreate: OnApiBoxOpen,
+    RemoveResultItem: true,
+  }
+
+  recipe Open Box 2
+  {
+    AmmoApiBox/ArmorApiBox/BasicFoodApiBox/FoodApiBox/GunApiBox/MeleeApiBox/PartsApiBox/ToolApiBox/AntiqueApiBox,
+    Result: OpenedBox,
+    Sound: PutItemInBag,
+    Time: 5.0,
+    OnCreate: OnApiBoxOpen,
+    RemoveResultItem: true,
+  }
+
+  recipe Spawn Vehicle
+  {
+    VehicleSpawnApi,
+    Result: OpenedBox,
+    Sound: PutItemInBag,
+    Time: 5.0,
+    OnCreate: OnVehicleSpawn,
+    RemoveResultItem: true,
+  }
+}

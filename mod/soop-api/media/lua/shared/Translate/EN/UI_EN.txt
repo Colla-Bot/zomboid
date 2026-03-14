@@ -1,0 +1,7 @@
+UI_EN = {
+	UI_optionscreen_binding_SOOP = "SOOP API",
+  UI_optionscreen_binding_TOGGLE_SOOP_WINDOW = "Toggle API Window",
+  UI_balloon_message = "%s donated %d balloons.",
+  UI_item_message = "Received %s!",
+  UI_kill_message = "%s killed me with %d balloons!",
+}
