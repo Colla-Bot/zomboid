@@ -12,18 +12,10 @@ index 783fdf6..015b816 100644
  		self.serverName1:setName(getText("UI_ConnectToServer_ServerName"))
  		self.serverName:setName(serverName)
 diff --git a/media/lua/client/OptionScreens/ServerConnectPopup.lua b/media/lua/client/OptionScreens/ServerConnectPopup.lua
-index aab1473..5ed6774 100644
+index aab1473..dfca179 100644
 --- a/media/lua/client/OptionScreens/ServerConnectPopup.lua
 +++ b/media/lua/client/OptionScreens/ServerConnectPopup.lua
-@@ -165,6 +165,7 @@ function ServerConnectPopup:setServer(ip, port, passwordStr)
-     if not type(port) == "string" then error "port must be a string" end
-     self.ip = ip;
-     self.port = port;
-+    self.connectTypeEntry.selected[1] = false;
- 
-     -- Get the most-recently edited account for this server and fill in the fields.
-     -- Assumes the most-recently edited account comes last.
-@@ -188,7 +189,7 @@ end
+@@ -188,7 +188,7 @@ end
  function ServerConnectPopup:prerender()
      ISPanelJoypad.prerender(self);
      self:drawTextCentre(getText("UI_ServerConnectPopup_Label"), self.width / 2, 20, 1, 1, 1, 1, UIFont.Large);
@@ -32,3 +24,15 @@ index aab1473..5ed6774 100644
      self:checkFields()
  
      if self.joyfocus and self.joypadIndexY > 0 then
+@@ -220,7 +220,10 @@ function ServerConnectPopup:onOptionMouseDown(button, x, y)
+     if button.internal == "CONNECT" then
+         if ServerConnectPopup.instance:checkFields() then
+             local localIP = ""
+-            local useSteamRelay = getSteamModeActive() and self.connectTypeEntry.selected[1]
++            local useSteamRelay = false
++            if getSteamModeActive() and self.connectTypeEntry.selected[1] then
++                useSteamRelay = true
++            end
+             ConnectToServer.instance:connect(self, "", self.usernameEntry:getText(), self.passwordEntry:getInternalText(),
+                 self.ip, localIP, self.port, self.serverPasswordEntry:getInternalText(), useSteamRelay);
+         end
