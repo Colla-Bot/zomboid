@@ -149,7 +149,8 @@ const createWindow = async () => {
       let isBuild42 = false;
       try {
         const appManifest = await getAppManifest(STEAM_APP_ID);
-        isBuild42 = appManifest.AppState.buildid === 22430415;
+        // @ts-ignore
+        isBuild42 = appManifest.AppState.UserConfig.BetaKey === "unstable";
       } catch {}
       if (isBuild42) {
         throw new Error("Steam에서 기본 공개(stable) 버전을 선택하여 주세요!")
