@@ -6,7 +6,7 @@ import { mkdirp } from "mkdirp";
 import { DownloaderHelper, DownloadEndedStats } from "node-downloader-helper";
 import StreamZip from "node-stream-zip";
 import { setExternalVBSLocation } from "regedit";
-import { getAppPath } from "steam-path";
+import { getAppManifest, getAppPath } from "steam-path";
 import {
   makeUserNotifier,
   updateElectronApp,
@@ -14,6 +14,7 @@ import {
 } from "update-electron-app";
 import childProcess from "node:child_process";
 import fs from "node:fs";
+import fsPromises from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
@@ -145,6 +146,15 @@ const createWindow = async () => {
     }
     try {
       updateStatus("설치 경로 찾는 중", 0);
+      let isBuild42 = false;
+      try {
+        const appManifest = await getAppManifest(STEAM_APP_ID);
+        isBuild42 = appManifest.AppState.buildid === 22430415;
+      } catch {}
+      if (isBuild42) {
+        throw new Error("Steam에서 기본 공개(stable) 버전을 선택하여 주세요!")
+      }
+
       const installPath = await findInstallPath(mainWindow);
       const javaPath = path.join(installPath, "jdk/bin/java.exe");
 
@@ -189,6 +199,10 @@ const createWindow = async () => {
           !fs.existsSync(filePath) ||
           (await md5file(filePath)) !== file.md5
         ) {
+          const backup = `${filePath}.bak`;
+          if (fs.existsSync(filePath) && !fs.existsSync(backup)) {
+            await fsPromises.rename(filePath, backup);
+          }
           await downloadFile(
             `${DIST_URL}${file.path}`,
             path.dirname(filePath),
@@ -286,6 +300,29 @@ const createWindow = async () => {
         label: "개발자 도구 열기",
         click: () => {
           window.webContents.toggleDevTools();
+        },
+      },
+      {
+        label: "패치 파일 삭제",
+        click: async () => {
+          const installPath = await findInstallPath(window);
+          const totalFiles = CONFIG.files.length;
+          for (let i = 0; i < totalFiles; i++) {
+            updateStatus(
+              `파일 삭제 중 (${i + 1}/${totalFiles})`,
+              (i / totalFiles) * 100
+            );
+            const file = CONFIG.files[i];
+            const filePath = path.join(installPath, file.path);
+            try {
+              await fsPromises.rm(filePath, { force: true });
+              const backup = `${filePath}.bak`;
+              if (fs.existsSync(backup)) {
+                await fsPromises.rename(backup, filePath);
+              }
+            } catch {}
+          }
+          updateStatus("파일 삭제 완료", 100);
         },
       },
     ];
