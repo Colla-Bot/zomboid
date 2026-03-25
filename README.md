@@ -1,5 +1,7 @@
 # Project Zomboid 스트리머 서버 모드 및 런처
 
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/B2PmZHUrUn)
+
 - pluginloader: 플러그인 로더 및 후원 연동 플러그인
 - mods/soop-api: 후원 연동 모드
 - launcher: 런처 (`disttool` 참조)
